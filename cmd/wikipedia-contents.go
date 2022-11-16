@@ -12,30 +12,19 @@ import (
 const wikiLink = "https://en.wikipedia.org/wiki/"
 const wikiPrefix = "/wiki/"
 
-var spyLinks = [4]string{"/wiki/Rugby_sevens", "/wiki/Test:template", "/wiki/Tennis", "/wiki/Document:Tennis.jpg"}
-
-type WikiLinks interface {
-	getLinks(link string) []string
-}
-
-type WikiLinkSearch struct{}
-
-type SpyWikiLinks struct {
-	links []string
-}
-
-func (s *SpyWikiLinks) getLinks(link string) []string {
-	for _, v := range spyLinks {
-		s.links = append(s.links, v)
-	}
-	return s.links
-}
-
+// Public facing routine usable by outside packages
+// Input: Subject of interest in Wikipedia
+// Examples include: Basketball, Starfish, Hawaii
+// Output: array of internal wiki links from the subject page
 func GetPageLinks(subject string) []string {
+	// WikiLink struct will go to wikipedia.org directly
 	wiki := &WikiLinkSearch{}
 	return getPageContent(subject, wiki)
 }
 
+// Input: subject of interest in Wikipedia
+//        wikiLinks in order to allow for testing a mock of wikiLinks
+//        has been made, see SpyWikiLinks for implementation
 func getPageContent(subject string, wikiLinks WikiLinks) []string {
 	if len(subject) == 0 || subject == "" {
 		return nil
@@ -47,6 +36,9 @@ func getPageContent(subject string, wikiLinks WikiLinks) []string {
 	return urls
 }
 
+// Filters out unneccessary common internal wiki links to
+// ensure search is only looking for real subject connections
+// between pages
 func getInternalWikiLinks(link string, wikiLinks WikiLinks) []string {
 	var internalWikiLinks []string
 
@@ -73,7 +65,16 @@ func getInternalWikiLinks(link string, wikiLinks WikiLinks) []string {
 	return internalWikiLinks
 }
 
-// Collect all links from response body and return it as an array of strings
+type WikiLinks interface {
+	getLinks(link string) []string
+}
+
+// General WikiLinkSearch struct used for runtime code
+// goes directly to wikipedia.org for getLinks implementation
+type WikiLinkSearch struct{}
+
+// Collect all links from Wikipedia subject response body and returns
+// an array of those internal Wikipedia links
 func (w *WikiLinkSearch) getLinks(link string) []string {
 
 	res, err := http.Get(link)
@@ -104,4 +105,22 @@ func (w *WikiLinkSearch) getLinks(link string) []string {
 			}
 		}
 	}
+}
+
+// Mock struct for unit testing
+type SpyWikiLinks struct {
+	links []string
+}
+
+// Mock links
+var spyLinks = [4]string{"/wiki/Rugby_sevens", "/wiki/Test:template", "/wiki/Tennis", "/wiki/Document:Tennis.jpg"}
+
+// Mock implementation of getLinks used for unit testing
+// instead of hitting wikipedia.org
+// will return back a list of mocked internal links
+func (s *SpyWikiLinks) getLinks(link string) []string {
+	for _, v := range spyLinks {
+		s.links = append(s.links, v)
+	}
+	return s.links
 }
