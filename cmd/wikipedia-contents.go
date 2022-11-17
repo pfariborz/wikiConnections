@@ -57,7 +57,7 @@ func getInternalWikiLinks(link string, wikiLinks WikiLinks) []string {
 
 		if strings.HasPrefix(link, wikiPrefix) {
 			// Remove internal link prefix
-			cleanedLink := strings.Replace(link, "/wiki/", "", -1)
+			cleanedLink := strings.Replace(link, wikiPrefix, "", -1)
 			internalWikiLinks = append(internalWikiLinks, cleanedLink)
 		}
 	}
@@ -92,7 +92,6 @@ func (w *WikiLinkSearch) getLinks(link string) []string {
 
 		switch tt {
 		case html.ErrorToken:
-			//todo: links list shoudn't contain duplicates
 			return links
 		case html.StartTagToken, html.EndTagToken:
 			token := z.Token()
