@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -12,8 +13,9 @@ func TestPageTraversal(t *testing.T) {
 		graph := NewGraph(2, &testWiki)
 		graph.depthFirstSearch("Ballet", "Dance")
 
-		if graph.mapPath["Dance"] != "Ballet" {
-			t.Errorf("Did not find the expected path")
+		expectedMap := map[string]string{"Dance": "Ballet", "Flamenco": "Ballet"}
+		if !reflect.DeepEqual(expectedMap, graph.mapPath) {
+			t.Errorf("Did not get expected mapPath for Ballet -> Dance")
 		}
 	})
 }
