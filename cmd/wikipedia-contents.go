@@ -18,8 +18,8 @@ const wikiPrefix = "/wiki/"
 // Output: array of internal wiki links from the subject page
 func GetPageLinks(subject string) []string {
 	// WikiLink struct will go to wikipedia.org directly
-	wiki := &WikiLinkSearch{}
-	return getPageContent(subject, wiki)
+	wiki := newWikiLinkSearch()
+	return getPageContent(subject, &wiki)
 }
 
 // Input: subject of interest in Wikipedia
@@ -72,6 +72,10 @@ type WikiLinks interface {
 // General WikiLinkSearch struct used for runtime code
 // goes directly to wikipedia.org for getLinks implementation
 type WikiLinkSearch struct{}
+
+func newWikiLinkSearch() WikiLinkSearch {
+	return WikiLinkSearch{}
+}
 
 // Collect all links from Wikipedia subject response body and returns
 // an array of those internal Wikipedia links
