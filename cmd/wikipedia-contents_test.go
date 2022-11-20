@@ -12,8 +12,8 @@ func TestWikipediaContents(t *testing.T) {
 	t.Run("Happy path verify expected internal links returned", func(t *testing.T) {
 		testWord := "Basketball"
 
-		testWiki := &SpyWikiLinks{}
-		returnedLinks := getPageContent(testWord, testWiki)
+		testWiki := newSpyWikiLinks(spyLinks)
+		returnedLinks := getPageContent(testWord, &testWiki)
 		if !reflect.DeepEqual(returnedLinks, expectedLinks) {
 			t.Errorf("Returned internal links do not match expected")
 		}

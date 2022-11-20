@@ -111,15 +111,16 @@ type SpyWikiLinks struct {
 	links []string
 }
 
+func newSpyWikiLinks(links []string) SpyWikiLinks {
+	return SpyWikiLinks{links: links}
+}
+
 // Mock links
-var spyLinks = [4]string{"/wiki/Rugby_sevens", "/wiki/Test:template", "/wiki/Tennis", "/wiki/Document:Tennis.jpg"}
+var spyLinks = []string{"/wiki/Rugby_sevens", "/wiki/Test:template", "/wiki/Tennis", "/wiki/Document:Tennis.jpg"}
 
 // Mock implementation of getLinks used for unit testing
 // instead of hitting wikipedia.org
 // will return back a list of mocked internal links
 func (s *SpyWikiLinks) getLinks(link string) []string {
-	for _, v := range spyLinks {
-		s.links = append(s.links, v)
-	}
 	return s.links
 }
