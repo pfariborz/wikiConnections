@@ -2,7 +2,7 @@ package cmd
 
 // Max pages we will allow the program to visit
 // if not controlled traversals could go on and on
-const maxPagesVisited = 50
+const maxPagesVisited = 20
 
 type Graph struct {
 	mapPath  map[string]string
