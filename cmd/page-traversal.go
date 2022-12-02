@@ -1,5 +1,7 @@
 package cmd
 
+import "fmt"
+
 // Max pages we will allow the program to visit
 // if not controlled traversals could go on and on
 const maxPagesVisited = 20
@@ -18,7 +20,7 @@ func NewGraph(maxPages int64, wiki WikiLinks) Graph {
 	}
 }
 
-func (g *Graph) depthFirstSearch(start string, goal string) {
+func (g *Graph) depthFirstSearch(start, goal string) int {
 	// Initialize necessary data structures for DFS
 	stack := &Stack{}
 	stack.push(start)
@@ -43,4 +45,23 @@ func (g *Graph) depthFirstSearch(start string, goal string) {
 		}
 		index++
 	}
+
+	return g.printPath(start, goal)
+}
+
+func (g *Graph) printPath(start, goal string) int {
+	if len(g.mapPath) == 0 {
+		return 0
+	}
+
+	curr := goal
+	count := 0
+
+	for curr != "" {
+		fmt.Println(curr)
+		curr = g.mapPath[curr]
+		count++
+	}
+
+	return count
 }

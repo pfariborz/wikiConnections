@@ -27,9 +27,9 @@ var rootCmd = &cobra.Command{
 
 		wiki := newWikiLinkSearch()
 		graph := NewGraph(3, &wiki)
-		graph.depthFirstSearch(start, goal)
+		count := graph.depthFirstSearch(start, goal)
 
-		fmt.Println("Number of hops is: ", len(graph.mapPath))
+		fmt.Println("Number of hops is: ", count)
 	},
 }
 
