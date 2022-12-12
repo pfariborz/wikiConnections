@@ -16,18 +16,26 @@ var rootCmd = &cobra.Command{
 	Use:   "wikiConnections",
 	Short: "wikiConnections is a program that will route a path between two subjects in Wikipedia",
 	Long: `wikiConnections is a program that will take a starting subject page in Wikipedia and
-	plot the path to an ending Wikipedia page. For example: 
-	wikiConnections --start Ballet --goal Tennis 
+	plot the path to an ending Wikipedia page. User can select either DFS or BFS as the
+	algorithm to perform the search (default is BFS). For example: 
+	wikiConnections --start Ballet --goal Tennis --algorithm BFS
 	
 	Returned back will be the number of hops it takes to get to Tennis`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 		start, _ := cmd.Flags().GetString("start")
 		goal, _ := cmd.Flags().GetString("goal")
+		algorithm, _ := cmd.Flags().GetString("algorithm")
 
 		wiki := newWikiLinkSearch()
 		graph := NewGraph(3, &wiki)
-		count := graph.depthFirstSearch(start, goal)
+		var count int
+
+		if algorithm == "DFS" {
+			count = graph.depthFirstSearch(start, goal)
+		} else {
+			count = graph.breathFirstSearch(start, goal)
+		}
 
 		fmt.Println("Number of hops is: ", count)
 	},
@@ -46,4 +54,5 @@ func init() {
 	// Flags for wikiConnetions command
 	rootCmd.Flags().StringP("start", "s", "", "Starting subject in WikiPedia")
 	rootCmd.Flags().StringP("goal", "g", "", "Final Wikipedia page")
+	rootCmd.Flags().StringP("algorithm", "a", "", "Search algorithm either BFS or DFS")
 }

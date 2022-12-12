@@ -49,6 +49,36 @@ func (g *Graph) depthFirstSearch(start, goal string) int {
 	return g.printPath(start, goal)
 }
 
+func (g *Graph) breathFirstSearch(start, goal string) int {
+	// Initliaze data structures for BFS
+	queue := &Queue{}
+	queue.enqueue(start)
+
+	visitedSet := make(map[string]bool)
+	visitedSet[start] = true
+
+	index := 0
+
+	for !queue.isEmpty() && index < maxPagesVisited {
+		curr, _ := queue.dequeue()
+		if curr == goal {
+			break
+		}
+		neighborLinks := getPageContent(curr, g.wiki)
+		for _, link := range neighborLinks {
+			if !visitedSet[link] {
+				visitedSet[link] = true
+				g.mapPath[link] = curr
+				queue.enqueue(link)
+			}
+		}
+		index++
+	}
+
+	return g.printPath(start, goal)
+
+}
+
 func (g *Graph) printPath(start, goal string) int {
 	if len(g.mapPath) == 0 {
 		return 0
