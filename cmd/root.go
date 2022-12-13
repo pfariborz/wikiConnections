@@ -26,9 +26,10 @@ var rootCmd = &cobra.Command{
 		start, _ := cmd.Flags().GetString("start")
 		goal, _ := cmd.Flags().GetString("goal")
 		algorithm, _ := cmd.Flags().GetString("algorithm")
+		pageCount, _ := cmd.Flags().GetInt("pageLimit")
 
 		wiki := newWikiLinkSearch()
-		graph := NewGraph(3, &wiki)
+		graph := NewGraph(pageCount, &wiki)
 		var count int
 
 		if algorithm == "DFS" {
@@ -54,5 +55,6 @@ func init() {
 	// Flags for wikiConnetions command
 	rootCmd.Flags().StringP("start", "s", "", "Starting subject in WikiPedia")
 	rootCmd.Flags().StringP("goal", "g", "", "Final Wikipedia page")
+	rootCmd.Flags().IntP("pageLimit", "p", maxPagesVisited, "Maximum number of pages visited")
 	rootCmd.Flags().StringP("algorithm", "a", "", "Search algorithm either BFS or DFS")
 }

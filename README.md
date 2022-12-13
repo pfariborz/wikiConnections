@@ -11,14 +11,23 @@ the program. They are returned back with the path it took to get there.
 
 ## CLI Guide
 
-TODO
+This program uses the Cobra Cli Library offering for Golang: https://github.com/spf13/cobra
 
-### Additional Configurations/Customizations
+To get the path printed out from start -> finish including the total number of hops 
+the CLI example is as follows: 
+```
+wikiConnections --start Ballet --goal Tennis
+Tennis
+Gymnastics
+Ballet
+Number of hops is:  3
+```
+There are two search alogirthms used in this program: Depth First Search (DFS) and
+Breadth First Search (BFS). The program will use BFS as the fault search alogrithm. 
+If a user would like to use DFS they will have to add the following flag to their command: 
+`wikiConnections --start Ballet --goal Tennis --algorithm DFS`
 
-In order to chart the graph, the program has implemmentations of both
-Depth First Search and Breadth First Search, the user has the ability to
-choose which algorithm they prefer. 
-
-Another configurable choice the user has is the maximum number of hops
-the program is allowed to take to find the path. The default value set
-for maximum number of hops is 20. 
+The user can also dictate how many pages we will allow the algorithm to visit before 
+giving up on finding the path between start -> goal. The default value of maximum pages
+visited is 20 however this can also be changed via the CLI with the following `-p --pageLimit`
+flag: `wikiConnections --start Ballet --goal Tennis --pageLimit 15`

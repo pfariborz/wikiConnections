@@ -8,11 +8,11 @@ const maxPagesVisited = 20
 
 type Graph struct {
 	mapPath  map[string]string
-	maxPages int64
+	maxPages int
 	wiki     WikiLinks
 }
 
-func NewGraph(maxPages int64, wiki WikiLinks) Graph {
+func NewGraph(maxPages int, wiki WikiLinks) Graph {
 	return Graph{
 		mapPath:  make(map[string]string),
 		maxPages: maxPages,
@@ -30,7 +30,7 @@ func (g *Graph) depthFirstSearch(start, goal string) int {
 
 	index := 0
 
-	for !stack.isEmpty() && index < maxPagesVisited {
+	for !stack.isEmpty() && index < g.maxPages {
 		curr, _ := stack.pop()
 		if curr == goal {
 			break
@@ -59,7 +59,7 @@ func (g *Graph) breathFirstSearch(start, goal string) int {
 
 	index := 0
 
-	for !queue.isEmpty() && index < maxPagesVisited {
+	for !queue.isEmpty() && index < g.maxPages {
 		curr, _ := queue.dequeue()
 		if curr == goal {
 			break
