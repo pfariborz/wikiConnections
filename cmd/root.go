@@ -37,7 +37,7 @@ var rootCmd = &cobra.Command{
 		} else {
 			count = graph.breathFirstSearch(start, goal)
 		}
-
+		graph.printPath(start, goal)
 		fmt.Println("Number of hops is: ", count)
 	},
 }
