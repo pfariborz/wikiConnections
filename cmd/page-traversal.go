@@ -46,7 +46,7 @@ func (g *Graph) depthFirstSearch(start, goal string) int {
 		index++
 	}
 
-	return g.printPath(start, goal)
+	return index
 }
 
 func (g *Graph) breathFirstSearch(start, goal string) int {
@@ -75,7 +75,7 @@ func (g *Graph) breathFirstSearch(start, goal string) int {
 		index++
 	}
 
-	return g.printPath(start, goal)
+	return index
 
 }
 
