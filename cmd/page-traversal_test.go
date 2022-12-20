@@ -7,6 +7,11 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+// Mock implementation of getLinks for
+// DFS/BFS testing this mock prevents
+// unnecessary calls to wikipedia
+// and guarantees consistent return values
+// for test stability
 type mockWikiLinkSearch struct {
 	mock.Mock
 }
@@ -34,9 +39,11 @@ func TestPageTraversal(t *testing.T) {
 		}
 	})
 
-	t.Run("Multiple calls for DFS test", func(t *testing.T) {
+	t.Run("DFS and BFS test", func(t *testing.T) {
+		// Start and Goal for DFS and BFS
 		start := "Spain"
 		goal := "Madrid"
+
 		//DFS Graph
 		testWikiDfs := newMockWikiLink()
 		firstLinks := []string{"/wiki/Argentina", "/wiki/Spanish", "/wiki/Europe"}

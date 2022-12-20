@@ -20,6 +20,9 @@ func NewGraph(maxPages int, wiki WikiLinks) Graph {
 	}
 }
 
+// DFS search algorithm implementation this function will return
+// back the total number of pages visited while finding the path
+// and the bool value of whether the goal was reached
 func (g *Graph) depthFirstSearch(start, goal string) (int, bool) {
 	// Initialize necessary data structures for DFS
 	stack := &Stack{}
@@ -51,6 +54,9 @@ func (g *Graph) depthFirstSearch(start, goal string) (int, bool) {
 	return index, goalReached
 }
 
+// BFS search algorithm implementation this function will return
+// back the total number of pages visted while finding the path
+// and the bool value of whether the goal was reached
 func (g *Graph) breathFirstSearch(start, goal string) (int, bool) {
 	// Initliaze data structures for BFS
 	queue := &Queue{}
@@ -83,6 +89,10 @@ func (g *Graph) breathFirstSearch(start, goal string) (int, bool) {
 
 }
 
+// Helper function that will print path from the
+// goal all the way back to start this function
+// also returns the int value of total number of
+// page hops from goal -> start
 func (g *Graph) printPath(start, goal string) int {
 	if len(g.mapPath) == 0 {
 		return 0
