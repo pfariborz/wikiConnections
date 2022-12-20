@@ -20,7 +20,7 @@ func NewGraph(maxPages int, wiki WikiLinks) Graph {
 	}
 }
 
-func (g *Graph) depthFirstSearch(start, goal string) int {
+func (g *Graph) depthFirstSearch(start, goal string) (int, bool) {
 	// Initialize necessary data structures for DFS
 	stack := &Stack{}
 	stack.push(start)
@@ -29,10 +29,12 @@ func (g *Graph) depthFirstSearch(start, goal string) int {
 	visitedSet[start] = true
 
 	index := 0
+	var goalReached = false
 
 	for !stack.isEmpty() && index < g.maxPages {
 		curr, _ := stack.pop()
 		if curr == goal {
+			goalReached = true
 			break
 		}
 		neighborLinks := getPageContent(curr, g.wiki)
@@ -46,10 +48,10 @@ func (g *Graph) depthFirstSearch(start, goal string) int {
 		index++
 	}
 
-	return index
+	return index, goalReached
 }
 
-func (g *Graph) breathFirstSearch(start, goal string) int {
+func (g *Graph) breathFirstSearch(start, goal string) (int, bool) {
 	// Initliaze data structures for BFS
 	queue := &Queue{}
 	queue.enqueue(start)
@@ -58,10 +60,12 @@ func (g *Graph) breathFirstSearch(start, goal string) int {
 	visitedSet[start] = true
 
 	index := 0
+	var goalReached = false
 
 	for !queue.isEmpty() && index < g.maxPages {
 		curr, _ := queue.dequeue()
 		if curr == goal {
+			goalReached = true
 			break
 		}
 		neighborLinks := getPageContent(curr, g.wiki)
@@ -75,7 +79,7 @@ func (g *Graph) breathFirstSearch(start, goal string) int {
 		index++
 	}
 
-	return index
+	return index, goalReached
 
 }
 

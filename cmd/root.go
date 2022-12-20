@@ -30,15 +30,20 @@ var rootCmd = &cobra.Command{
 
 		wiki := newWikiLinkSearch()
 		graph := NewGraph(pageCount, &wiki)
-		var count int
+		var goalReached bool
 
 		if algorithm == "DFS" {
-			count = graph.depthFirstSearch(start, goal)
+			_, goalReached = graph.depthFirstSearch(start, goal)
 		} else {
-			count = graph.breathFirstSearch(start, goal)
+			_, goalReached = graph.breathFirstSearch(start, goal)
 		}
-		graph.printPath(start, goal)
-		fmt.Println("Number of hops is: ", count)
+		if goalReached {
+			fmt.Printf("wikiConnections found a path from start: %s to goal: %s\n", start, goal)
+			count := graph.printPath(start, goal)
+			fmt.Println("Number of hops is: ", count)
+		} else {
+			fmt.Printf("wikiConnections did not find a path from start: %s to goal: %s", start, goal)
+		}
 	},
 }
 

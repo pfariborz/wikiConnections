@@ -35,6 +35,8 @@ func TestPageTraversal(t *testing.T) {
 	})
 
 	t.Run("Multiple calls for DFS test", func(t *testing.T) {
+		start := "Spain"
+		goal := "Madrid"
 		//DFS Graph
 		testWikiDfs := newMockWikiLink()
 		firstLinks := []string{"/wiki/Argentina", "/wiki/Spanish", "/wiki/Europe"}
@@ -45,9 +47,17 @@ func TestPageTraversal(t *testing.T) {
 		testWikiDfs.On("getLinks", mock.Anything).Return(thirdLinks)
 
 		graphDfs := NewGraph(20, &testWikiDfs)
-		hopsDfs := graphDfs.depthFirstSearch("Spain", "Madrid")
+		hopsDfs, goalReachedDfs := graphDfs.depthFirstSearch(start, goal)
 		if hopsDfs != 3 {
-			t.Errorf("DFS search alogrithm for this output should return 3 hops to path from Soccer -> Madrid")
+			t.Errorf("DFS search alogrithm for this output should visit 3 hops on path from Soccer -> Madrid")
+		}
+		if !goalReachedDfs {
+			t.Errorf("Expected to reach the goal, instead DFS reported goal was not reached")
+		}
+
+		pathCountDfs := graphDfs.printPath(start, goal)
+		if pathCountDfs != 4 {
+			t.Errorf("Expected path to be 4 total hops for DFS")
 		}
 
 		//BFS Graph
@@ -57,9 +67,17 @@ func TestPageTraversal(t *testing.T) {
 		testWikiBfs.On("getLinks", mock.Anything).Return(thirdLinks)
 
 		graphBfs := NewGraph(20, &testWikiBfs)
-		hopsBfs := graphBfs.breathFirstSearch("Spain", "Madrid")
+		hopsBfs, goalReachedBfs := graphBfs.breathFirstSearch(start, goal)
 		if hopsBfs != 8 {
-			t.Errorf("BFS search algorithm for this output should return 8 hops to path from Soccer -> Madrid")
+			t.Errorf("BFS search algorithm for this output should visit 8 hops on path from Soccer -> Madrid")
+		}
+		if !goalReachedBfs {
+			t.Errorf("Expected to reach the goal, instead BFS reported goal was not reached")
+		}
+
+		pathCountBfs := graphBfs.printPath(start, goal)
+		if pathCountBfs != 3 {
+			t.Errorf("Expected path to be 3 total hops for BFS")
 		}
 	})
 }
