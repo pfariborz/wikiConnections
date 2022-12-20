@@ -20,6 +20,7 @@ func newMockWikiLink() mockWikiLinkSearch {
 	return mockWikiLinkSearch{}
 }
 
+// mock of getLinks
 func (m *mockWikiLinkSearch) getLinks(link string) []string {
 	args := m.Called(link)
 	return args.Get(0).([]string)
