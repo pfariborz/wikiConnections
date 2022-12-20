@@ -34,7 +34,7 @@ func TestPageTraversal(t *testing.T) {
 		graph.depthFirstSearch("Ballet", "Dance")
 
 		expectedMap := map[string]string{"Dance": "Ballet", "Flamenco": "Ballet"}
-		if reflect.DeepEqual(expectedMap, graph.mapPath) {
+		if !reflect.DeepEqual(expectedMap, graph.mapPath) {
 			t.Errorf("Did not get expected mapPath for Ballet -> Dance")
 		}
 	})
