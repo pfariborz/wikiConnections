@@ -23,7 +23,7 @@ Ballet
 Number of hops is:  3
 ```
 There are two search alogirthms used in this program: Depth First Search (DFS) and
-Breadth First Search (BFS). The program will use BFS as the fault search alogrithm. 
+Breadth First Search (BFS). The program will use BFS as the default search alogrithm. 
 If a user would like to use DFS they will have to add the following flag to their command: 
 `wikiConnections --start Ballet --goal Tennis --algorithm DFS`
 
